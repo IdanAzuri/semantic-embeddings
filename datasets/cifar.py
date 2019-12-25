@@ -81,12 +81,11 @@ class CifarGenerator(TinyDatasetGenerator):
             y_train=np.array(y_train)
             for label in self.classes:
                 idxs = y_train == label
-                idxs= idxs[:shot]
                 # add to train list
-                train_images.append(X_train[idxs])
-                train_fine_labels.append(y_train[idxs])
+                train_images.append(X_train[idxs][:shot])
+                train_fine_labels.append(y_train[idxs][:shot])
             X_train = np.array(train_images)
-            y_train = np.array(train_fine_labels)
+            y_train = train_fine_labels
 
         # Reshape data to images
         X_train = X_train.reshape(-1, 3, 32, 32).transpose((0, 2, 3, 1))

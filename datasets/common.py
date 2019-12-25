@@ -820,7 +820,7 @@ class TinyDatasetGenerator(object):
     def num_classes(self):
         """ Number of unique classes in the dataset. """
         
-        return np.max(self.y_train) + 1
+        return max(self.y_train) + 1
     
     
     @property
