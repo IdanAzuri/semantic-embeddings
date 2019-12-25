@@ -79,7 +79,7 @@ class CifarGenerator(TinyDatasetGenerator):
             train_images=[]
             train_fine_labels=[]
             for label in self.classes:
-                idxs = y_train == label
+                idxs = np.array(y_train) == label
                 # add to train list
                 train_images.append(X_train[idxs][:shot])
                 train_fine_labels.append(y_train[idxs][:shot])
