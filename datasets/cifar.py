@@ -9,7 +9,7 @@ from .common import TinyDatasetGenerator
 class CifarGenerator(TinyDatasetGenerator):
     """ Data generator for CIFAR-10 and CIFAR-100. """
 
-    def __init__(self, root_dir, classes = None, reenumerate = False, cifar10 = False, **kwargs):
+    def __init__(self, root_dir, classes = None, reenumerate = False, cifar10 = False,shot=None, **kwargs):
         """ Data generator for CIFAR-10 and CIFAR-100.
 
         # Arguments:
@@ -75,10 +75,21 @@ class CifarGenerator(TinyDatasetGenerator):
 
             self.classes = np.arange(max(y_train) + 1)
             self.class_indices = dict(zip(self.classes, self.classes))
+        if shot > 0:
+            train_images=[]
+            train_fine_labels=[]
+            for label in self.classes:
+                idxs = y_train == label
+                # add to train list
+                train_images.append(X_train[idxs][:shot])
+                train_fine_labels.append(y_train[idxs][:shot])
+            X_train = np.array(train_images)
+            y_train = np.array(train_fine_labels)
 
         # Reshape data to images
         X_train = X_train.reshape(-1, 3, 32, 32).transpose((0, 2, 3, 1))
         X_test = X_test.reshape(-1, 3, 32, 32).transpose((0, 2, 3, 1))
-
+        print(len(X_train),len(y_train))
+        print(len(X_test),len(y_train))
         # Call parent constructor
         super(CifarGenerator, self).__init__(X_train, X_test, y_train, y_test, **kwargs)

@@ -18,7 +18,7 @@ from .subdirectory import SubDirectoryGenerator
 
 
 
-def get_data_generator(dataset, data_root, classes = None):
+def get_data_generator(dataset, data_root, classes = None,num_shot=None):
     """ Shortcut for creating a data generator with default settings.
 
     # Arguments:
@@ -84,7 +84,7 @@ def get_data_generator(dataset, data_root, classes = None):
     
     elif dataset == 'cifar-100':
     
-        return CifarGenerator(data_root, classes, reenumerate = True)
+        return CifarGenerator(data_root, classes, reenumerate = True,shot=num_shot)
     
     elif dataset.startswith('cifar-100-a'):
     

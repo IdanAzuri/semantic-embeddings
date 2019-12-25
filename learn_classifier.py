@@ -40,6 +40,7 @@ if __name__ == '__main__':
     arggroup.add_argument('--nesterov', action = 'store_true', default = False, help = 'Use Nesterov momentum instead of standard momentum.')
     arggroup.add_argument('--epochs', type = int, default = None, help = 'Number of training epochs.')
     arggroup.add_argument('--batch_size', type = int, default = 100, help = 'Batch size.')
+    arggroup.add_argument('--num_shot', type = int, default = 50, help = 'Num shot')
     arggroup.add_argument('--val_batch_size', type = int, default = None, help = 'Validation batch size.')
     arggroup.add_argument('--snapshot', type = str, default = None, help = 'Path where snapshots should be stored after every epoch. If existing, it will be used to resume training.')
     arggroup.add_argument('--snapshot_best', type = str, nargs = '?', default = None, const = 'val_loss', help = 'Only store best-performing model as checkpoint, identified by monitoring the specified metric.')
@@ -57,6 +58,7 @@ if __name__ == '__main__':
     arggroup.add_argument('--log_dir', type = str, default = None, help = 'Tensorboard log directory.')
     arggroup.add_argument('--top_k_acc', type = int, nargs = '+', default = [], help = 'If given, top k accuracy will be reported in addition to top 1 accuracy.')
     arggroup.add_argument('--no_progress', action = 'store_true', default = False, help = 'Do not display training progress, but just the final performance.')
+    arggroup.add_argument('--num_shot', type = int, default = -1, help = 'Num shot')
     utils.add_lr_schedule_arguments(parser)
     
     args = parser.parse_args()
@@ -77,7 +79,7 @@ if __name__ == '__main__':
                 pass
     else:
         class_list = None
-    data_generator = get_data_generator(args.dataset, args.data_root, classes = class_list)
+    data_generator = get_data_generator(args.dataset, args.data_root, classes = class_list,num_shot=args.num_shot)
 
     # Construct and train model
     if (args.gpus <= 1) or args.gpu_merge:
