@@ -91,6 +91,7 @@ if __name__ == '__main__':
     arggroup.add_argument('--log_dir', type = str, default = None, help = 'Tensorboard log directory.')
     arggroup.add_argument('--no_progress', action = 'store_true', default = False, help = 'Do not display training progress, but just the final performance.')
     arggroup.add_argument('--top_k_acc', type = int, nargs = '+', default = [], help = 'If given, top k accuracy will be reported in addition to top 1 accuracy.')
+    arggroup.add_argument('--num_shot', type = int, default = 0, help = 'Num shot')
     utils.add_lr_schedule_arguments(parser)
 
     args = parser.parse_args()
@@ -112,7 +113,7 @@ if __name__ == '__main__':
             embedding = embedding['embedding']
 
     # Load dataset
-    data_generator = get_data_generator(args.dataset, args.data_root, classes = embed_labels)
+    data_generator = get_data_generator(args.dataset, args.data_root, classes = embed_labels,num_shot=args.num_shot)
     if embedding is None:
         embedding = np.eye(data_generator.num_classes)
 
