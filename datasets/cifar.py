@@ -81,9 +81,10 @@ class CifarGenerator(TinyDatasetGenerator):
             y_train=np.array(y_train)
             for label in self.classes:
                 idxs = y_train == label
+                idxs= idxs[:shot]
                 # add to train list
-                train_images.append(X_train[idxs][:shot])
-                train_fine_labels.append(y_train[idxs][:shot])
+                train_images.append(X_train[idxs])
+                train_fine_labels.append(y_train[idxs])
             X_train = np.array(train_images)
             y_train = np.array(train_fine_labels)
 
@@ -91,6 +92,6 @@ class CifarGenerator(TinyDatasetGenerator):
         X_train = X_train.reshape(-1, 3, 32, 32).transpose((0, 2, 3, 1))
         X_test = X_test.reshape(-1, 3, 32, 32).transpose((0, 2, 3, 1))
         print(len(X_train),len(y_train))
-        print(len(X_test),len(y_train))
+        print(len(X_test),len(y_test))
         # Call parent constructor
         super(CifarGenerator, self).__init__(X_train, X_test, y_train, y_test, **kwargs)
