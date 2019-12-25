@@ -40,7 +40,6 @@ if __name__ == '__main__':
     arggroup.add_argument('--nesterov', action = 'store_true', default = False, help = 'Use Nesterov momentum instead of standard momentum.')
     arggroup.add_argument('--epochs', type = int, default = None, help = 'Number of training epochs.')
     arggroup.add_argument('--batch_size', type = int, default = 100, help = 'Batch size.')
-    arggroup.add_argument('--num_shot', type = int, default = 50, help = 'Num shot')
     arggroup.add_argument('--val_batch_size', type = int, default = None, help = 'Validation batch size.')
     arggroup.add_argument('--snapshot', type = str, default = None, help = 'Path where snapshots should be stored after every epoch. If existing, it will be used to resume training.')
     arggroup.add_argument('--snapshot_best', type = str, nargs = '?', default = None, const = 'val_loss', help = 'Only store best-performing model as checkpoint, identified by monitoring the specified metric.')
