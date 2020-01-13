@@ -81,6 +81,7 @@ if __name__ == '__main__':
     arggroup.add_argument('--finetune', type = str, default = None, help = 'Path to pre-trained weights to be fine-tuned (will be loaded by layer name).')
     arggroup.add_argument('--finetune_init', type = int, default = 8, help = 'Number of initial epochs for training just the new layers before fine-tuning.')
     arggroup.add_argument('--gpus', type = int, default = 1, help = 'Number of GPUs to be used.')
+    arggroup.add_argument('--seed', type = int, default = 1, help = 'seed')
     arggroup.add_argument('--read_workers', type = int, default = 8, help = 'Number of parallel data pre-processing processes.')
     arggroup.add_argument('--queue_size', type = int, default = 100, help = 'Maximum size of data queue.')
     arggroup.add_argument('--gpu_merge', action = 'store_true', default = False, help = 'Merge weights on the GPU.')
@@ -95,7 +96,15 @@ if __name__ == '__main__':
     utils.add_lr_schedule_arguments(parser)
 
     args = parser.parse_args()
-    
+    seed=args.seed
+    import tensorflow as tf
+    tf.set_random_seed(seed)
+    import random
+    random.seed(seed)
+
+    # 3. Set `numpy` pseudo-random generator at a fixed value
+    import numpy as np
+    np.random.seed(seed)
     if args.val_batch_size is None:
         args.val_batch_size = args.batch_size
 
@@ -216,12 +225,13 @@ if __name__ == '__main__':
         callbacks.append(keras.callbacks.TensorBoard(log_dir = args.log_dir, write_graph = False))
     
     if args.snapshot:
+        print("snapshot")
         snapshot_kwargs = {}
         if args.snapshot_best:
             snapshot_kwargs['save_best_only'] = True
             snapshot_kwargs['monitor'] = args.snapshot_best
         callbacks.append(keras.callbacks.ModelCheckpoint(args.snapshot, **snapshot_kwargs) if args.gpus <= 1 else utils.TemplateModelCheckpoint(model, args.snapshot, **snapshot_kwargs))
-
+    print()
     if args.max_decay > 0:
         decay = (1.0/args.max_decay - 1) / ((data_generator.num_train // args.batch_size) * (args.epochs if args.epochs else num_epochs))
     else:
