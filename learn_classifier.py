@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
     par_model.fit_generator(
               data_generator.train_sequence(args.batch_size, batch_transform = transform_inputs, batch_transform_kwargs = batch_transform_kwargs),
-              steps_per_epoch=data_generator.num_train // args.batch_size,
+              steps_per_epoch=data_generator.num_train // args.batch_size,validation_steps=50,
               validation_data = data_generator.test_sequence(args.val_batch_size, batch_transform = transform_inputs, batch_transform_kwargs = batch_transform_kwargs),
               epochs = args.epochs if args.epochs else num_epochs, initial_epoch = args.initial_epoch,
               callbacks = callbacks, verbose = not args.no_progress,
