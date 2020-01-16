@@ -114,7 +114,7 @@ def get_data_generator(dataset, data_root, classes = None,num_shot=None):
             samples_per_class = int(dataset[7:])
             kwargs['split_file'] = 'train_test_split_{}.txt'.format(samples_per_class)
             kwargs['train_repeats'] = 30 // samples_per_class
-        return NABGenerator(data_root, classes, 'images', cropsize = (448, 448), default_target_size = 512, randzoom_range = None, **kwargs)
+        return NABGenerator(data_root, classes, 'images', cropsize = (224, 224), default_target_size = 256, randzoom_range = None, **kwargs)
     
     elif dataset == 'cars':
         
