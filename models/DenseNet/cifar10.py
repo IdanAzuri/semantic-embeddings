@@ -69,7 +69,7 @@ model_checkpoint= ModelCheckpoint(weights_file, monitor="val_acc", save_best_onl
                                   save_weights_only=True, verbose=1)
 
 callbacks=[lr_reducer, model_checkpoint]
-
+print(f"DEBUG: {len(trainX) // batch_size}")
 model.fit_generator(generator.flow(trainX, Y_train, batch_size=batch_size),
                     steps_per_epoch=len(trainX) // batch_size, epochs=nb_epoch,
                     callbacks=callbacks,
