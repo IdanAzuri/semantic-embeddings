@@ -8,7 +8,7 @@ from .common import FileDatasetGenerator
 class CarsGenerator(FileDatasetGenerator):
 
     def __init__(self, root_dir, classes = None, annotation_file = 'cars_annos.mat',
-                 cropsize = (448, 448), default_target_size = 512, randzoom_range = None, distort_colors = False,
+                 cropsize = (224, 224), default_target_size = 246, randzoom_range = None, distort_colors = False,
                  randerase_prob = 0.5, randerase_params = { 'sl' : 0.02, 'sh' : 0.3, 'r1' : 0.3, 'r2' : 1./0.3 },
                  mean = [120.03730636, 117.33780928, 116.0130335], std = [75.40415763, 75.15394251, 77.28286728], color_mode = "rgb"):
         """ Stanford-Cars data generator.

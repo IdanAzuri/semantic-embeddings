@@ -73,8 +73,8 @@ def get_data_generator(dataset, data_root, classes = None,num_shot=None):
         kwargs['color_mode'] = 'bgr'
         dataset = dataset[:-6]
     if dataset.endswith('-large'):
-        kwargs['cropsize'] = (448, 448)
-        kwargs['default_target_size'] = 512
+        kwargs['cropsize'] = (224, 224)
+        kwargs['default_target_size'] = 256
         dataset = dataset[:-6]
 
     if dataset == 'cifar-10':
